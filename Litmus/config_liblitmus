@@ -1,0 +1,10 @@
+# Where can we find the LITMUS^RT kernel source?
+LITMUS_KERNEL = ../litmus-rt
+
+# Which architecture should we build for?
+# If unset, the library will be built for the host architecture.
+# ARCH =
+
+# Should we use a prefix for compiler invocations (to use a cross
+# compiler instead of gcc)? 
+# CROSS_COMPILE =

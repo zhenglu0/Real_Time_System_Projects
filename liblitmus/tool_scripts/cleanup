@@ -1,0 +1,26 @@
+#!/bin/bash
+
+#make sure there's nothing leftover running
+#pkill clustering_launcher
+#pkill synthetic_task
+#pkill exp_run
+#pkill python
+
+#for rootDir in "/export/austen/experiment/aug5util20-100n100" "/export/austen/experiment/core36aug2util05-90"
+#?for rootDir in "/home/jing/cluster/core14aug2avg3"
+#for rootDir in "/home/jing/cluster/core14aug2avg1"
+#for rootDir in "/home/jing/cluster/core14aug2avg3speedup"
+#for rootDir in "/home/jing/cluster/core14aug2avg2speedup"
+for rootDir in "/home/jing/cluster/core7aug2avg2exp1speedup"
+#for rootDir in "/home/jing/cluster/core14aug2avg1exp1speedup"
+#for rootDir in "/export/austen/experiment/core36aug2util05-90"
+##for rootDir in "/export/austen/experiment/core36aug2avg3"
+#for rootDir in "/export/austen/experiment/core12aug2avg2"
+do
+
+	#delete the contents of the result folders
+	#python delete_results.py $rootDir/bestaug5util20 $rootDir/bestaug5util30 $rootDir/bestaug5util40 $rootDir/bestaug5util50 $rootDir/bestaug5util60 $rootDir/bestaug5util70 $rootDir/bestaug5util80 
+	python delete_results.py $rootDir/bestaug5util20 $rootDir/bestaug5util30 $rootDir/bestaug5util40 $rootDir/bestaug5util50  
+	#python delete_results.py $rootDir/bestaug5util55 
+
+done

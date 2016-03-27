@@ -1,0 +1,54 @@
+#!/bin/sh
+#
+# setsched: facilitate changing the active scheduler plugin.
+
+ADIR=/proc/litmus/active_plugin
+PDIR=/proc/litmus/plugins/loaded
+DIALOG=`which dialog 2> /dev/null`
+
+CHOICE=$1
+
+if [ ! -e $ADIR ]; then
+    KERN=`uname -s -r`
+    echo "Error: LITMUS^RT interface not found on $KERN!"
+    echo "Are you sure you booted the correct kernel?"
+    echo "Is the /proc filesystem mounted correctly?"
+    exit 1
+fi
+
+ACTIVE=`cat $ADIR`
+
+if [ -z "$1" ]; then
+    # Check for presence of dialog, some distros don't install it by default.
+    if [ -z "$DIALOG" ]; then
+	echo "Error: The dialog utility cannot be found."
+	echo "       Please install the required package (dialog on Ubuntu),"
+	echo "       or specify the desired plugin as a commandline argument,"
+	echo "       e.g., 'setsched GSN-EDF'."
+	exit 2
+    fi
+    TMP=`mktemp`
+    (awk "{print \$1 \" 'Plugin'\"}" $PDIR | \
+    xargs $DIALOG --title "Select Plugin" --backtitle "Current: $ACTIVE"  \
+	--cancel-label "Cancel" --ok-label "Select Plugin" \
+	--menu "Select a new plugin to run: " 15 60 6) 2> $TMP
+    OK=$?
+    clear
+    if [ "$OK" != "0" ]; then
+	exit 0;
+    fi
+    CHOICE=`cat $TMP`
+    rm $TMP
+fi
+
+
+echo "$CHOICE" > $ADIR 2> /dev/null || \
+    echo "Error: Cannot write to $ADIR. Do you have root privileges?"
+
+ACTIVE=`cat $ADIR`
+
+if [ "$ACTIVE" != "$CHOICE" ]; then
+    echo "Error: Setting new plugin failed."
+    echo "Are there any active real-time tasks?"
+    exit 1
+fi

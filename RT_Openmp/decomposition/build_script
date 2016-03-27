@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cd src
+for files in *.cpp *.c; do g++ -c -Wall -O2 $files; done;
+cd ../gomp_src
+for files in *.c; do g++ -c -Wall -O2 $files; done;
+cd ..
+
+ar cr librtomp.a src/*.o gomp_src/*.o
+
+rm -f src/*.o gomp_src/*.o

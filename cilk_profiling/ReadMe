@@ -1,0 +1,50 @@
+*******************************************************************************
+ * @file README
+ * @date 2014-July-29
+ *
+*******************************************************************************
+
+*******************************************************************************
+1. Install the gcc 4.8 version of cilkplus
+https://gcc.gnu.org/git/?p=gcc.git;a=shortlog;h=refs/heads/cilkplus-4_8-branch
+I use 2013-09-25 bviyer	+2013-09-25 Balaji V. Iyer 
+<balaji.v.iyer@intel.com> version to make the patch
+
+#Update the head and do the upgrade
+sudo apt-get update
+sudo apt-get upgrade
+
+#Install possibly missing component
+sudo apt-get install flex bison
+sudo apt-get install gcc-multilib
+
+#Fetch the prerequisite libraries
+./contrib/download_prerequisites
+
+#Download the patch file and copy it to the $HOME/Documents/cilkplus-gcc,
+#and then we apply the patch.
+cd $HOME/Documents/cilkplus-gcc/libcilkrts
+patch -p1 < ../cilk_profiling_patch
+
+#In the b-gcc, I put the the cilkplus-gcc in $HOME/Documents/cilkplus-gcc, 
+#acutally you don't have to put it there.
+make distclean
+$HOME/Documents/cilkplus-gcc/configure --prefix=$HOME/Documents/cilkplus-install --enable-languages="c,c++" --disable-multilib
+
+#Compile and install components, the -j parameters depends on how many cores you have,
+#for dickens, I just use 16, which means use all the cores we have.
+make -j 16; make install
+
+*******************************************************************************
+2. Use the make file to compile the program, and remember that the compiler path
+should be set correctly.
+# the compiler: g++ for C++ program, define as g++ for C++
+CILKCC = /home/luozheng/Documents/cilkplus-install/bin/g++
+Just change CILKCC to the acutal path that where /cilkplus-install/bin/g++ is
+
+*******************************************************************************
+3. Run the test programs.
+If you want to log the data to the file, for example, you can run the program like this:
+./helloworld 2>result_helloworld
+./fibonacci 2>result_fibonacci
+(2>result_* means we redirect the stderr to a file)

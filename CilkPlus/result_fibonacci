@@ -1,0 +1,205 @@
+Stats for worker 0
+CILK PLUS RUNTIME SYSTEM STATISTICS:
+
+  event                           : 	          count 	microsecond 	microsecond/count 	    %total
+  in scheduler                    : 	              1
+    of which: working             : 	          23129 	  2.01e+07 	                868 	       inf
+    of which: in runtime          : 	          23129 	  1.59e+05 	               6.87 	       inf
+       of which: stealing         : 	         254070 	  2.83e+04 	              0.112 	       inf
+  steal success: detach           : 	          14341 	  4.45e+03 	              0.311 	       inf
+  steal fail: empty queue         : 	         239412 	  1.82e+03 	            0.00762 	       inf
+  steal fail: victim locked       : 	            279 	      51.5 	              0.185 	       inf
+  steal fail: user worker         : 	              0
+  steal success: dekker           : 	          14341 	  1.07e+03 	             0.0746 	       inf
+  steal fail: dekker              : 	             38 	      3.99 	              0.105 	       inf
+  sync check                      : 	          10395 	       915 	             0.0881 	       inf
+  THE exception check             : 	          12738 	   1.6e+03 	              0.126 	       inf
+    of which: useless             : 	              5
+  returning                       : 	           8787 	  2.33e+03 	              0.266 	       inf
+  finalize child                  : 	           8787 	       527 	             0.0599 	       inf
+  provably good steal             : 	          23128 	       270 	             0.0117 	       inf
+  unconditional steal             : 	           8787 	      78.8 	            0.00897 	       inf
+  alloc full frame                : 	          24358 	  1.28e+03 	             0.0526 	       inf
+  large frame alloc               : 	              0
+  small frame alloc               : 	          37091 	       437 	             0.0118 	       inf
+    of which: to global pool      : 	            107 	       108 	               1.01 	       inf
+  large frame free                : 	              0
+  small frame free                : 	          34345 	       667 	             0.0194 	       inf
+    of which: to global pool      : 	            316 	       229 	              0.724 	       inf
+  mutex lock                      : 	         209029
+    spinning                      : 	            290 	      41.5 	              0.143 	       inf
+    yielding                      : 	              0
+  mutex trylock                   : 	          29264
+  fiber_allocate                  : 	         254070 	  3.78e+03 	             0.0149 	       inf
+  fiber_deallocate                : 	         239729 	  2.39e+03 	            0.00997 	       inf
+  fiber_allocate_from_thread      : 	              1 	       193 	                193 	       inf
+  fiber_deallocate (thread)       : 	              0
+  fiber suspend self + resume     : 	          31981
+  fiber deallocate self + resume  : 	          14275
+
+
+
+Stats for worker 1
+CILK PLUS RUNTIME SYSTEM STATISTICS:
+
+  event                           : 	          count 	microsecond 	microsecond/count 	    %total
+  in scheduler                    : 	              1
+    of which: working             : 	          24116 	     2e+07 	                831 	       inf
+    of which: in runtime          : 	          24116 	  1.84e+05 	               7.64 	       inf
+       of which: stealing         : 	         213262 	  2.56e+04 	               0.12 	       inf
+  steal success: detach           : 	          14505 	  4.54e+03 	              0.313 	       inf
+  steal fail: empty queue         : 	         198467 	  1.42e+03 	            0.00717 	       inf
+  steal fail: victim locked       : 	            266 	      51.8 	              0.195 	       inf
+  steal fail: user worker         : 	              0
+  steal success: dekker           : 	          14505 	  1.13e+03 	             0.0779 	       inf
+  steal fail: dekker              : 	             24 	      2.58 	              0.108 	       inf
+  sync check                      : 	          10481 	       940 	             0.0897 	       inf
+  THE exception check             : 	          13639 	  1.77e+03 	              0.129 	       inf
+    of which: useless             : 	              5
+  returning                       : 	           9610 	  2.59e+03 	               0.27 	       inf
+  finalize child                  : 	           9610 	       589 	             0.0612 	       inf
+  provably good steal             : 	          24115 	       287 	             0.0119 	       inf
+  unconditional steal             : 	           9610 	        87 	            0.00905 	       inf
+  alloc full frame                : 	          24794 	  1.27e+03 	             0.0511 	       inf
+  large frame alloc               : 	              0
+  small frame alloc               : 	          38428 	       431 	             0.0112 	       inf
+    of which: to global pool      : 	             81 	      93.1 	               1.15 	       inf
+  large frame free                : 	              0
+  small frame free                : 	          37034 	       759 	             0.0205 	       inf
+    of which: to global pool      : 	            347 	       282 	              0.812 	       inf
+  mutex lock                      : 	         219472
+    spinning                      : 	            275 	        36 	              0.131 	       inf
+    yielding                      : 	              0
+  mutex trylock                   : 	          29540
+  fiber_allocate                  : 	         213262 	  3.16e+03 	             0.0148 	       inf
+  fiber_deallocate                : 	         198757 	  1.99e+03 	            0.00999 	       inf
+  fiber_allocate_from_thread      : 	              1 	       105 	                105 	       inf
+  fiber_deallocate (thread)       : 	              0
+  fiber suspend self + resume     : 	          33714
+  fiber deallocate self + resume  : 	          14516
+
+
+
+Stats for worker 2
+CILK PLUS RUNTIME SYSTEM STATISTICS:
+
+  event                           : 	          count 	microsecond 	microsecond/count 	    %total
+  in scheduler                    : 	              1
+    of which: working             : 	          22253 	  2.01e+07 	                902 	       inf
+    of which: in runtime          : 	          22253 	  1.58e+05 	               7.11 	       inf
+       of which: stealing         : 	         181962 	  2.26e+04 	              0.124 	       inf
+  steal success: detach           : 	          12817 	   4.1e+03 	               0.32 	       inf
+  steal fail: empty queue         : 	         168778 	  1.23e+03 	            0.00728 	       inf
+  steal fail: victim locked       : 	            328 	      65.4 	              0.199 	       inf
+  steal fail: user worker         : 	              0
+  steal success: dekker           : 	          12817 	  1.07e+03 	             0.0834 	       inf
+  steal fail: dekker              : 	             39 	      4.17 	              0.107 	       inf
+  sync check                      : 	           8816 	       809 	             0.0917 	       inf
+  THE exception check             : 	          13438 	  1.81e+03 	              0.134 	       inf
+    of which: useless             : 	              2
+  returning                       : 	           9435 	  2.64e+03 	               0.28 	       inf
+  finalize child                  : 	           9435 	       643 	             0.0681 	       inf
+  provably good steal             : 	          22252 	       279 	             0.0126 	       inf
+  unconditional steal             : 	           9435 	        87 	            0.00922 	       inf
+  alloc full frame                : 	          21647 	  1.11e+03 	             0.0512 	       inf
+  large frame alloc               : 	              0
+  small frame alloc               : 	          35083 	       371 	             0.0106 	       inf
+    of which: to global pool      : 	             32 	      42.3 	               1.32 	       inf
+  large frame free                : 	              0
+  small frame free                : 	          36400 	       883 	             0.0243 	       inf
+    of which: to global pool      : 	            358 	       403 	               1.13 	       inf
+  mutex lock                      : 	         205677
+    spinning                      : 	            234 	      31.9 	              0.136 	       inf
+    yielding                      : 	              0
+  mutex trylock                   : 	          26310
+  fiber_allocate                  : 	         181962 	  2.75e+03 	             0.0151 	       inf
+  fiber_deallocate                : 	         169145 	   1.7e+03 	             0.0101 	       inf
+  fiber_allocate_from_thread      : 	              1 	      85.7 	               85.7 	       inf
+  fiber_deallocate (thread)       : 	              0
+  fiber suspend self + resume     : 	          31785
+  fiber deallocate self + resume  : 	          12719
+
+
+
+Stats for worker 3
+CILK PLUS RUNTIME SYSTEM STATISTICS:
+
+  event                           : 	          count 	microsecond 	microsecond/count 	    %total
+  in scheduler                    : 	           1000 	  2.02e+07 	           2.02e+04 	    100.00
+    of which: working             : 	          22017 	  2.01e+07 	                914 	     99.46
+    of which: in runtime          : 	          21017 	  1.09e+05 	               5.21 	      0.54
+       of which: stealing         : 	         177955 	  2.03e+04 	              0.114 	      0.10
+  steal success: detach           : 	          11079 	   3.2e+03 	              0.289 	      0.02
+  steal fail: empty queue         : 	         166680 	  1.19e+03 	            0.00714 	      0.01
+  steal fail: victim locked       : 	            165 	      33.7 	              0.205 	      0.00
+  steal fail: user worker         : 	              0
+  steal success: dekker           : 	          11079 	  1.07e+03 	             0.0962 	      0.01
+  steal fail: dekker              : 	             31 	      3.87 	              0.125 	      0.00
+  sync check                      : 	           8078 	       705 	             0.0873 	      0.00
+  THE exception check             : 	          12940 	  1.63e+03 	              0.126 	      0.01
+    of which: useless             : 	              1
+  returning                       : 	           8938 	  2.45e+03 	              0.274 	      0.01
+  finalize child                  : 	           8938 	       610 	             0.0682 	      0.00
+  provably good steal             : 	          21017 	       254 	             0.0121 	      0.00
+  unconditional steal             : 	           8938 	      80.2 	            0.00897 	      0.00
+  alloc full frame                : 	          19713 	  1.11e+03 	             0.0565 	      0.01
+  large frame alloc               : 	              0
+  small frame alloc               : 	          34652 	       436 	             0.0126 	      0.00
+    of which: to global pool      : 	             10 	       138 	               13.8 	      0.00
+  large frame free                : 	              0
+  small frame free                : 	          37475 	       817 	             0.0218 	      0.00
+    of which: to global pool      : 	            364 	       335 	              0.919 	      0.00
+  mutex lock                      : 	         181992
+    spinning                      : 	            243 	      36.5 	               0.15 	      0.00
+    yielding                      : 	              0
+  mutex trylock                   : 	          22522
+  fiber_allocate                  : 	         177956 	  2.79e+03 	             0.0157 	      0.01
+  fiber_deallocate                : 	         167876 	  1.87e+03 	             0.0112 	      0.01
+  fiber_allocate_from_thread      : 	              0
+  fiber_deallocate (thread)       : 	              0
+  fiber suspend self + resume     : 	          30802
+  fiber deallocate self + resume  : 	          11232
+
+
+
+
+Aggregate statistics
+CILK PLUS RUNTIME SYSTEM STATISTICS:
+
+  event                           : 	          count 	microsecond 	microsecond/count 	    %total
+  in scheduler                    : 	           1003 	  2.02e+07 	           2.02e+04 	    100.00
+    of which: working             : 	          91515 	  8.03e+07 	                877 	    396.97
+    of which: in runtime          : 	          90515 	  6.11e+05 	               6.75 	      3.02
+       of which: stealing         : 	         827249 	  9.68e+04 	              0.117 	      0.48
+  steal success: detach           : 	          52742 	  1.63e+04 	              0.309 	      0.08
+  steal fail: empty queue         : 	         773337 	  5.67e+03 	            0.00733 	      0.03
+  steal fail: victim locked       : 	           1038 	       202 	              0.195 	      0.00
+  steal fail: user worker         : 	              0
+  steal success: dekker           : 	          52742 	  4.33e+03 	             0.0821 	      0.02
+  steal fail: dekker              : 	            132 	      14.6 	              0.111 	      0.00
+  sync check                      : 	          37770 	  3.37e+03 	             0.0892 	      0.02
+  THE exception check             : 	          52755 	  6.81e+03 	              0.129 	      0.03
+    of which: useless             : 	             13
+  returning                       : 	          36770 	     1e+04 	              0.272 	      0.05
+  finalize child                  : 	          36770 	  2.37e+03 	             0.0644 	      0.01
+  provably good steal             : 	          90512 	  1.09e+03 	              0.012 	      0.01
+  unconditional steal             : 	          36770 	       333 	            0.00905 	      0.00
+  alloc full frame                : 	          90512 	  4.77e+03 	             0.0527 	      0.02
+  large frame alloc               : 	              0
+  small frame alloc               : 	         145254 	  1.68e+03 	             0.0115 	      0.01
+    of which: to global pool      : 	            230 	       382 	               1.66 	      0.00
+  large frame free                : 	              0
+  small frame free                : 	         145254 	  3.13e+03 	             0.0215 	      0.02
+    of which: to global pool      : 	           1385 	  1.25e+03 	              0.901 	      0.01
+  mutex lock                      : 	         816170
+    spinning                      : 	           1042 	       146 	               0.14 	      0.00
+    yielding                      : 	              0
+  mutex trylock                   : 	         107636
+  fiber_allocate                  : 	         827250 	  1.25e+04 	             0.0151 	      0.06
+  fiber_deallocate                : 	         775507 	  7.95e+03 	             0.0103 	      0.04
+  fiber_allocate_from_thread      : 	              3 	       384 	                128 	      0.00
+  fiber_deallocate (thread)       : 	              0
+  fiber suspend self + resume     : 	         128282
+  fiber deallocate self + resume  : 	          52742
+CILK PLUS Thread Info: P=4, Q=0
+CILK PLUS RUNTIME MEMORY USAGE: 130560 bytes

@@ -1,0 +1,2 @@
+# Where can we find the liblitmus library and build system?
+LIBLITMUS = ../liblitmus

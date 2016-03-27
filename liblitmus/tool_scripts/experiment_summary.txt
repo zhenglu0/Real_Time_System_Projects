@@ -1,0 +1,144 @@
+bestaug5util20
+	numTotalTasksets: 100
+	numTotalFailures: 0 - 0
+	numTotalPeriods: 5672929
+	numTotalMissedDeadlines: 0
+
+	numSchedulableTasksets: 100
+	numSchedulableFailures: 0 - 0
+	numSchedulablePeriods: 5672929
+	numSchedulableMissedDeadlines: 0
+
+	numNotGuaranteedTasksets: 0
+	numNotGuaranteedFailures: 0 - 0
+	numNotGuaranteedPeriods: 0
+	numNotGuaranteedMissedDeadlines: 0
+
+	numUnschedulableTasksets: 0
+
+bestaug5util30
+	numTotalTasksets: 100
+	numTotalFailures: 0 - 0
+	numTotalPeriods: 5672929
+	numTotalMissedDeadlines: 0
+
+	numSchedulableTasksets: 0
+	numSchedulableFailures: 0 - 0
+	numSchedulablePeriods: 0
+	numSchedulableMissedDeadlines: 0
+
+	numNotGuaranteedTasksets: 100
+	numNotGuaranteedFailures: 0 - 0
+	numNotGuaranteedPeriods: 5672929
+	numNotGuaranteedMissedDeadlines: 0
+
+	numUnschedulableTasksets: 0
+
+bestaug5util40
+	numTotalTasksets: 100
+	numTotalFailures: 0 - 0
+	numTotalPeriods: 5672929
+	numTotalMissedDeadlines: 0
+
+	numSchedulableTasksets: 0
+	numSchedulableFailures: 0 - 0
+	numSchedulablePeriods: 0
+	numSchedulableMissedDeadlines: 0
+
+	numNotGuaranteedTasksets: 100
+	numNotGuaranteedFailures: 0 - 0
+	numNotGuaranteedPeriods: 5672929
+	numNotGuaranteedMissedDeadlines: 0
+
+	numUnschedulableTasksets: 0
+
+bestaug5util50
+	numTotalTasksets: 100
+	numTotalFailures: 0 - 0
+	numTotalPeriods: 5672929
+	numTotalMissedDeadlines: 0
+
+	numSchedulableTasksets: 0
+	numSchedulableFailures: 0 - 0
+	numSchedulablePeriods: 0
+	numSchedulableMissedDeadlines: 0
+
+	numNotGuaranteedTasksets: 100
+	numNotGuaranteedFailures: 0 - 0
+	numNotGuaranteedPeriods: 5672929
+	numNotGuaranteedMissedDeadlines: 0
+
+	numUnschedulableTasksets: 0
+
+bestaug5util55
+	numTotalTasksets: 100
+	numTotalFailures: 0 - 0
+	numTotalPeriods: 5672929
+	numTotalMissedDeadlines: 0
+
+	numSchedulableTasksets: 0
+	numSchedulableFailures: 0 - 0
+	numSchedulablePeriods: 0
+	numSchedulableMissedDeadlines: 0
+
+	numNotGuaranteedTasksets: 100
+	numNotGuaranteedFailures: 0 - 0
+	numNotGuaranteedPeriods: 5672929
+	numNotGuaranteedMissedDeadlines: 0
+
+	numUnschedulableTasksets: 0
+
+bestaug5util60
+	numTotalTasksets: 100
+	numTotalFailures: 2 - 1
+	numTotalPeriods: 5672929
+	numTotalMissedDeadlines: 10
+
+	numSchedulableTasksets: 0
+	numSchedulableFailures: 0 - 0
+	numSchedulablePeriods: 0
+	numSchedulableMissedDeadlines: 0
+
+	numNotGuaranteedTasksets: 100
+	numNotGuaranteedFailures: 2 - 1
+	numNotGuaranteedPeriods: 5672929
+	numNotGuaranteedMissedDeadlines: 10
+
+	numUnschedulableTasksets: 0
+
+bestaug5util70
+	numTotalTasksets: 100
+	numTotalFailures: 4 - 2
+	numTotalPeriods: 5672929
+	numTotalMissedDeadlines: 13
+
+	numSchedulableTasksets: 0
+	numSchedulableFailures: 0 - 0
+	numSchedulablePeriods: 0
+	numSchedulableMissedDeadlines: 0
+
+	numNotGuaranteedTasksets: 100
+	numNotGuaranteedFailures: 4 - 2
+	numNotGuaranteedPeriods: 5672929
+	numNotGuaranteedMissedDeadlines: 13
+
+	numUnschedulableTasksets: 0
+
+bestaug5util80
+	numTotalTasksets: 100
+	numTotalFailures: 42 - 4
+	numTotalPeriods: 5672929
+	numTotalMissedDeadlines: 10554
+
+	numSchedulableTasksets: 0
+	numSchedulableFailures: 0 - 0
+	numSchedulablePeriods: 0
+	numSchedulableMissedDeadlines: 0
+
+	numNotGuaranteedTasksets: 100
+	numNotGuaranteedFailures: 42 - 4
+	numNotGuaranteedPeriods: 5672929
+	numNotGuaranteedMissedDeadlines: 10554
+
+	numUnschedulableTasksets: 0
+

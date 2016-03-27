@@ -1,0 +1,20 @@
+#!/bin/bash
+
+rootDir=/export/austen/home/kieselbachk/core36aug2util05-90
+
+for expFolder in bestaug5util20 bestaug5util30 bestaug5util40 bestaug5util50 bestaug5util60 bestaug5util70 bestaug5util80 
+do
+	expDir=$rootDir/$expFolder
+	
+	for i in {1..100}
+	do
+		./exp_run $i "$expDir" 12 47
+	done
+done
+
+mkdir -p rtpt_files_new_36
+
+#view the contents of the result folders
+python aggregate_rtpt.py rtpt_files_new_36 $rootDir/bestaug5util20 $rootDir/bestaug5util30 $rootDir/bestaug5util40 $rootDir/bestaug5util50 $rootDir/bestaug5util60 $rootDir/bestaug5util70 $rootDir/bestaug5util80 
+
+tar czf rtpt_files_new_36.tar.gz rtpt_files_new_36

@@ -1,0 +1,336 @@
+diff -rupN libcilkrts/runtime/cilk_api.c libcilkrts_profiling/runtime/cilk_api.c
+--- libcilkrts/runtime/cilk_api.c	2013-09-25 16:34:20.000000000 -0500
++++ libcilkrts_profiling/runtime/cilk_api.c	2014-07-28 21:55:22.620348733 -0500
+@@ -60,10 +60,15 @@
+ #include "scheduler.h"
+ #include "sysdep.h"
+ 
++#include <stdio.h>
++
+ CILK_API_VOID __cilkrts_init(void)
+ {
+     // Initialize, but don't start, the cilk runtime.
++    // ZL begin
++    printf("__cilkrts_init\n");
+     __cilkrts_init_internal(0);
++    // ZL end
+ }
+ 
+ CILK_API_VOID __cilkrts_end_cilk(void)
+@@ -74,6 +79,12 @@ CILK_API_VOID __cilkrts_end_cilk(void)
+ 
+     if (cilkg_is_published()) {
+         global_state_t *g = cilkg_get_global_state();
++         
++        // ZL begin
++        printf("__cilkrts_end_cilk\n");
++        __cilkrts_deinit_internal(g);
++        // ZL end
++
+         if (g->Q || __cilkrts_get_tls_worker())
+             __cilkrts_bug("Attempt to shut down Cilk while Cilk is still "
+                           "running");
+diff -rupN libcilkrts/runtime/scheduler.c libcilkrts_profiling/runtime/scheduler.c
+--- libcilkrts/runtime/scheduler.c	2013-09-25 16:34:20.000000000 -0500
++++ libcilkrts_profiling/runtime/scheduler.c	2014-07-28 21:55:22.616348733 -0500
+@@ -161,9 +161,11 @@ void __cilkrts_dump_stats_to_stderr(glob
+         fprintf(stderr, "Stats for worker %d\n", i);
+         dump_stats_to_file(stderr, g->workers[i]->l->stats);
+         __cilkrts_accum_stats(&g->stats, g->workers[i]->l->stats);
++        fprintf(stderr, "\n\n\n");
+     }
+ 
+     // Also print out aggregate statistics.
++    fprintf(stderr, "Aggregate statistics\n");
+     dump_stats_to_file(stderr, &g->stats);
+ #endif
+     fprintf(stderr,
+@@ -933,7 +935,14 @@ static void random_steal(__cilkrts_worke
+ 
+     /* Execute a quick check before engaging in the THE protocol.
+        Avoid grabbing locks if there is nothing to steal. */
+-    if (!can_steal_from(victim)) {
++    // ZL begin
++    unsigned long long start_time = __cilkrts_getticks();
++    int cs_result = can_steal_from(victim);
++    unsigned long long stop_time = __cilkrts_getticks();
++    // ZL end
++    if (!cs_result) {
++        __cilkrts_add_time(w,INTERVAL_STEAL_FAIL_EMPTYQ,
++                           stop_time - start_time);
+         NOTE_INTERVAL(w, INTERVAL_STEAL_FAIL_EMPTYQ);
+         START_INTERVAL(w, INTERVAL_FIBER_DEALLOCATE) {
+             int ref_count = cilk_fiber_remove_reference(fiber, &w->l->fiber_pool);
+@@ -943,9 +952,18 @@ static void random_steal(__cilkrts_worke
+         } STOP_INTERVAL(w, INTERVAL_FIBER_DEALLOCATE);
+         return;
+     }
+-    
++
++    // ZL begin
++    start_time = __cilkrts_getticks();
++    int wt_result = worker_trylock_other(w, victim);
++    stop_time = __cilkrts_getticks();
++    if (!wt_result) {
++        __cilkrts_add_time(w,INTERVAL_STEAL_FAIL_LOCK,
++                           stop_time - start_time);
++    }
++    // ZL end
+     /* Attempt to steal work from the victim */
+-    if (worker_trylock_other(w, victim)) {
++    if (wt_result) {
+         if (w->l->type == WORKER_USER && victim->l->team != w) {
+ 
+             // Fail to steal if this is a user worker and the victim is not
+@@ -965,7 +983,17 @@ static void random_steal(__cilkrts_worke
+             // A successful steal will change victim->frame_ff, even
+             // though the victim may be executing.  Thus, the lock on
+             // the victim's deque is also protecting victim->frame_ff.
+-            if (dekker_protocol(victim)) {
++            
++            // ZL Measure the overhead of the dekker protocal
++            unsigned long long start_time = __cilkrts_getticks();
++            int dk_result = dekker_protocol(victim);
++            unsigned long long stop_time = __cilkrts_getticks();
++
++            if (dk_result) {
++                // add the acounted time, becuase it is the dekker returns true
++                NOTE_INTERVAL(w, INTERVAL_STEAL_SUCCESS_DEKKER);
++                __cilkrts_add_time(w,INTERVAL_STEAL_SUCCESS_DEKKER,
++                                   stop_time - start_time);
+                 int proceed_with_steal = 1; // optimistic
+ 
+                 // If we're replaying a log, verify that this the correct frame
+@@ -1003,7 +1031,11 @@ static void random_steal(__cilkrts_worke
+                     } STOP_INTERVAL(w, INTERVAL_STEAL_SUCCESS);
+                 }  // end if(proceed_with_steal)
+             } else {
++                // ZL begin
+                 NOTE_INTERVAL(w, INTERVAL_STEAL_FAIL_DEKKER);
++                __cilkrts_add_time(w,INTERVAL_STEAL_FAIL_DEKKER,
++                                   stop_time - start_time);
++                // ZL end
+             }
+         } else {
+             NOTE_INTERVAL(w, INTERVAL_STEAL_FAIL_EMPTYQ);
+@@ -1460,6 +1492,7 @@ void scheduling_fiber_prepare_to_resume_
+  */
+ static void enter_runtime_transition_proc(cilk_fiber *fiber)
+ {
++
+     // We can execute this method for one of three reasons:
+     // 1. Undo-detach finds parent stolen.
+     // 2. Sync suspends frame.
+@@ -2806,6 +2839,8 @@ __cilkrts_stack_frame *volatile *__cilkr
+   Initialization and startup 
+ *************************************************************/
+ 
++// luozheng
++// This fucntion will be called before the cilk_for
+ __cilkrts_worker *make_worker(global_state_t *g,
+                               int self, __cilkrts_worker *w)
+ {
+@@ -2964,6 +2999,7 @@ void __cilkrts_deinit_internal(global_st
+ 
+ #ifdef CILK_PROFILE
+     __cilkrts_dump_stats_to_stderr(g);
++    printf("%s\n", "__cilkrts_deinit_internal is called");
+ #endif
+ 
+     w = g->workers[0];
+@@ -3142,8 +3178,7 @@ void __cilkrts_init_internal(int start)
+ 
+     if (cilkg_is_published()) {
+         g = cilkg_init_global_state();
+-    }
+-    else {
++    } else {
+ 
+         // We think the state has not been published yet.
+         // Grab the lock and try to initialize/publish.
+diff -rupN libcilkrts/runtime/stats.c libcilkrts_profiling/runtime/stats.c
+--- libcilkrts/runtime/stats.c	2013-09-25 16:34:20.000000000 -0500
++++ libcilkrts_profiling/runtime/stats.c	2014-07-28 21:55:22.616348733 -0500
+@@ -51,6 +51,7 @@ static const char *names[] = {
+     /*[INTERVAL_STEAL_FAIL_EMPTYQ]*/            "steal fail: empty queue",
+     /*[INTERVAL_STEAL_FAIL_LOCK]*/              "steal fail: victim locked",
+     /*[INTERVAL_STEAL_FAIL_USER_WORKER]*/       "steal fail: user worker",
++    /*[INTERVAL_STEAL_SUCCESS_DEKKER]*/         "steal success: dekker",
+     /*[INTERVAL_STEAL_FAIL_DEKKER]*/            "steal fail: dekker",
+     /*[INTERVAL_SYNC_CHECK]*/                   "sync check",
+     /*[INTERVAL_THE_EXCEPTION_CHECK]*/          "THE exception check",
+@@ -117,51 +118,95 @@ void __cilkrts_note_interval(__cilkrts_w
+     }
+ }
+ 
+-void __cilkrts_start_interval(__cilkrts_worker *w, enum interval i)
++unsigned long long __cilkrts_start_interval(__cilkrts_worker *w, enum interval i)
+ {
+     if (w) {
+         statistics *s = w->l->stats;
+         CILK_ASSERT(s->start[i] == INVALID_START);
+         s->start[i] = __cilkrts_getticks();
+         s->count[i]++;
++        return s->start[i];
+     }
++    return 0;
+ }
+ 
+-void __cilkrts_stop_interval(__cilkrts_worker *w, enum interval i)
++unsigned long long __cilkrts_stop_interval(__cilkrts_worker *w, enum interval i)
+ {
+     if (w) {
+         statistics *s = w->l->stats;
+         CILK_ASSERT(s->start[i] != INVALID_START);
+-        s->accum[i] += __cilkrts_getticks() - s->start[i];
++        unsigned long long time_now = __cilkrts_getticks();
++        s->accum[i] += time_now - s->start[i];
+         s->start[i] = INVALID_START;
++        return time_now;
+     }
++    return 0;
+ }
+ 
++// Zl begin
+ void dump_stats_to_file(FILE *stat_file, statistics *s)
+ {
+-    int i;
+-    fprintf(stat_file, "\nCILK PLUS RUNTIME SYSTEM STATISTICS:\n\n");
++    int i, output_as_tick = 0, MHZ = 3400;
+ 
+-    fprintf(stat_file,
+-            "  %-32s: %15s %10s %12s %10s\n",
+-            "event",
+-            "count",
+-            "ticks",
+-            "ticks/count",
+-            "%total"
+-        );
+-    for (i = 0; i < INTERVAL_N; ++i) {
+-        fprintf(stat_file, "  %-32s: %15llu", names[i], s->count[i]);
+-        if (s->accum[i]) {
+-            fprintf(stat_file, " %10.3g %12.3g %10.2f",
+-                    (double)s->accum[i],
+-                    (double)s->accum[i] / (double)s->count[i],
+-                    100.0 * (double)s->accum[i] / 
+-                    (double)s->accum[INTERVAL_IN_SCHEDULER]);
++    fprintf(stat_file, "CILK PLUS RUNTIME SYSTEM STATISTICS:\n\n");
++
++    // Use processor cycle as the output
++    if (output_as_tick) {
++        fprintf(stat_file,
++                "  %-32s: %15s %10s %12s %10s\n",
++                "event",
++                "count",
++                "ticks",
++                "ticks/count",
++                "%total"
++            );
++        for (i = 0; i < INTERVAL_N; ++i) {
++            fprintf(stat_file, "  %-32s: %15llu", names[i], s->count[i]);
++            if (s->accum[i]) {
++                fprintf(stat_file, " %10.3g %12.3g %10.2f",
++                        (double)s->accum[i],
++                        (double)s->accum[i] / (double)s->count[i],
++                        100.0 * (double)s->accum[i] / 
++                        (double)s->accum[INTERVAL_IN_SCHEDULER]);
++            }
++            fprintf(stat_file, "\n");
++        }
++    } else {
++        // Use the microsecond as the output
++        fprintf(stat_file,
++                "  %-32s: \t%15s \t%10s \t%16s \t%10s\n",
++                "event",
++                "count",
++                "microsecond",
++                "microsecond/count",
++                "%total"
++            );
++        for (i = 0; i < INTERVAL_N; ++i) {
++            fprintf(stat_file, "  %-32s: \t%15llu", names[i], s->count[i]);
++            if (s->accum[i]) {
++                fprintf(stat_file, " \t%10.3g \t%19.3g \t%10.2f",
++                        (double)s->accum[i] / MHZ,
++                        ((double)s->accum[i]/(double)s->count[i]) / MHZ,
++                        100.0 * (double)s->accum[i] / 
++                        (double)s->accum[INTERVAL_IN_SCHEDULER]);
++            }
++            fprintf(stat_file, "\n");
+         }
+-        fprintf(stat_file, "\n");
+     }
++
+ }
++
++void __cilkrts_add_time(__cilkrts_worker *w, enum interval i,
++                        unsigned long long time)
++{
++    if (w) {
++        statistics *s = w->l->stats;
++        s->accum[i] += time;
++    }
++}
++
++// ZL end
++
+ #endif // CILK_PROFILE
+ 
+ /* End stats.c */
+diff -rupN libcilkrts/runtime/stats.h libcilkrts_profiling/runtime/stats.h
+--- libcilkrts/runtime/stats.h	2013-09-25 16:34:20.000000000 -0500
++++ libcilkrts_profiling/runtime/stats.h	2014-07-28 21:55:22.612348733 -0500
+@@ -43,7 +43,7 @@
+ #ifndef INCLUDED_STATS_DOT_H
+ #define INCLUDED_STATS_DOT_H
+ 
+-/* #define CILK_PROFILE 1 */
++#define CILK_PROFILE 1
+ // @note  The CILK_PROFILE flag and intervals is known to be broken
+ //        in at least programs with Windows exceptions. 
+ //        Enable this flag at your own peril. :)
+@@ -69,6 +69,7 @@ enum interval
+     INTERVAL_STEAL_FAIL_EMPTYQ,             ///< Count of steal failures due to lack of stealable work
+     INTERVAL_STEAL_FAIL_LOCK,               ///< Count of steal failures due to failure to lock worker
+     INTERVAL_STEAL_FAIL_USER_WORKER,        ///< Count of steal failures by user workers which attempt to steal from another team
++    INTERVAL_STEAL_SUCCESS_DEKKER,          ///< Count of steal success of Dekker protocol
+     INTERVAL_STEAL_FAIL_DEKKER,             ///< Count of steal failures due to Dekker protocol failure
+     INTERVAL_SYNC_CHECK,                    ///< Time spent processing syncs
+     INTERVAL_THE_EXCEPTION_CHECK,           ///< Time spent performing THE exception checks
+@@ -153,7 +154,8 @@ void __cilkrts_accum_stats(statistics *t
+  * @param i The interval we're accumulating stats for.
+  */
+ COMMON_PORTABLE
+-void __cilkrts_start_interval(__cilkrts_worker *w, enum interval i);
++unsigned long long 
++__cilkrts_start_interval(__cilkrts_worker *w, enum interval i);
+ 
+ /**
+  * @brief Mark the end of an interval by adding the ticks since the
+@@ -165,7 +167,8 @@ void __cilkrts_start_interval(__cilkrts_
+  * @param i The interval we're accumulating stats for.
+  */
+ COMMON_PORTABLE
+-void __cilkrts_stop_interval(__cilkrts_worker *w, enum interval i);
++unsigned long long 
++__cilkrts_stop_interval(__cilkrts_worker *w, enum interval i);
+ 
+ /**
+  * @brief Start and stop interval I, charging zero time against it
+@@ -176,9 +179,16 @@ void __cilkrts_stop_interval(__cilkrts_w
+  * @param w The worker we're accumulating stats for.
+  * @param i The interval we're accumulating stats for.
+  */
++
+ COMMON_PORTABLE
+ void __cilkrts_note_interval(__cilkrts_worker *w, enum interval i);
+ 
++// ZL begin
++// Add the time to certain event
++void __cilkrts_add_time(__cilkrts_worker *w, enum interval i,
++                        unsigned long long time);
++// ZL end
++
+ #ifdef CILK_PROFILE
+ COMMON_PORTABLE
+ void dump_stats_to_file(FILE *stat_file, statistics *s);
