@@ -1,0 +1,23 @@
+This software allows the user to execute a real-time parallel workload
+using the theory and practice developed in "Practical Real-Time Scheduling
+for Parallel Tasks ---- from Theory to Platform"
+
+Using this software requires writing real-time tasks in a special way that
+does not include a main function. A sample of such a task can be found in
+simple_task.cpp, and the special method of invocation is in
+run_simple_taskset.sh.
+
+A user guide may be found at prt.wustl.edu/clustering_user_guide.docx
+
+Note that invoking tasksets with this software requires that one have
+administrative privliges to create threads and set real-time priorities. 
+
+This software is still under development- please feel free to contact the 
+authors for further guidance. 
+
+Contact:
+
+Please direct questions concerning this software to David Ferry and Jing Li
+at Washington University in St. Louis. 
+
+Email: dferry@go.wustl.edu, li.jing@go.wustl.edu luozheng@wustl.edu

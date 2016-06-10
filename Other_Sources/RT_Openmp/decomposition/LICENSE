@@ -1,0 +1,81 @@
+Copyright (C) 2012 Washington University in St. Louis - All Rights Reserved
+
+Unless otherwise stated, all files in the RT_OpenMP package are copyright (C)
+2012 by Washington University in St. Louis. Files located in the gomp_src/
+subdirectory are from GNU's libgomp library, and as such are licensed under the
+GNU General Public License (GPL) Version 3.
+
+The OpenMP name is a registered trademark of the OpenMP Architecture Review
+Board (ARB). The RT_OpenMP project aims to adapt the OpenMP API for use in real-
+time systems, but the RT_OpenMP project is not affiliated with or endorsed by 
+the OpenMP ARB. 
+
+Preamble:
+
+This software is designed to allow users to execute real-time workloads, as well
+as be a research platform for those who work on real-time systems. By nature,
+such projects typically require large institutional investment by companies or
+governments. Our goal is that this software will be useful to such users, either
+as an example of a real-time parallel execution platform or as a starting point
+for them to build their own. 
+
+All non-GNU files are licensed under our license, which can be found below.
+We want businesses and individuals to be able to use these files with no
+restriction, including for commercial products. We place no requirement on
+users to distribute source code with products, and we give you the right to
+relicense and redistribute our code at will. You may not, however,
+missappropriate our copyright, such as by attempting to copyright it or by
+claiming authorship of our code. You may not take any action that would prevent
+our code from being used in an open source development model. You do not need
+to inform anyone you are using our software, but we would appreciate you letting
+us know through the CONTACT section of the README file.
+
+All files located within gomp_src/ are copyrighted to the Free Software 
+Foundation and subject to the GPL v3. The complete RT_OMP runtime system 
+requires these files, so any binary built with RT_OMP will also be subject to 
+the GPL v3.
+
+You may find the GPLv3 licence in the gomp_src/COPYING3 and the GPLv3 runtime
+exeception in gomp_src/COPYING.RUNTIME
+
+LICENSE AND WARRANTY
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of 
+this software and associated documentation files (the "Software"), to deal in 
+the Software without restriction, including without limitation the rights to 
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies 
+of the Software, and to permit persons to whom the Software is furnished to do 
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all 
+copies or substantial portions of the Software. However, you do not need to
+provide these notices if you are only distributing binary executables. 
+
+Neither the name of the University or the names of the authors may be used to 
+endorse or promote products derived from this software without specific prior 
+written permission.
+
+You may not claim authorship of the Software or attempt to copyright it. You
+may not take any action that would prevent or impair it's use in an open-source
+development model.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS, THE
+UNIVERSITY, ITS EMPLOYEES AND STUDENTS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+SOFTWARE, EVEN WHEN NOTIFIED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+THE AUTHORS, UNIVERSITY, ITS EMPLOYEES AND STUDENTS SHALL HAVE NO LIABILITY WITH
+RESPECT TO THE INFRINGEMENT OF COPYRIGHTS, TRADE SECRETS, OR ANY PATENTS BY
+THE SOFTWARE OR ANY PART THEREOF. THE AUTHORS, UNIVERSITY, ITS EMPLOYEES AND
+STUDENTS SHALL NOT BE LIABLE FOR ANY LOST REVENUE OR PROFITS OR ANY OTHER
+SPECIAL, INDRECT, AND CONSEQUENTIAL DAMAGES. THERE IS NO CONTRACT OR GUARANTEE 
+OF SUPPORT FOR THE SOFTWARE FROM THE AUTHORS, UNIVERSITY, ITS EMPLOYEES OR 
+STUDENTS.
+
+IT IS SOLELY THE RESPONSIBILITY OF THE USER TO ENSURE ADEQUATE REAL-TIME
+OPERATION.
+
+

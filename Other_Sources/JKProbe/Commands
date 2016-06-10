@@ -1,0 +1,13 @@
+
+sudo insmod mod5.ko
+
+lsmod | head -n 5 
+
+sudo rmmod mod5
+
+dmesg
+
+cat /proc/sys/kernel/printk
+
+sudo cat /proc/kallsyms | grep ip_rcv
+sudo cat /proc/kallsyms | grep mkdir
