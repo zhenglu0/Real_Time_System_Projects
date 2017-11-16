@@ -1,4 +1,4 @@
-## Real_Time_System_Projects
+## Real Time System Projects
 
 Slides and result of Real_Time System Projects and source code
 
